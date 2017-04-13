@@ -3,9 +3,7 @@ jQuery(document).ready(function() {
 	var fileInfo = jQuery('.file-info'),
 		fileSelect = jQuery('#file-download'),
 		removeFileSelect = jQuery('#remove-file-download'),
-		fileID = jQuery('#file-download-id'),
-		resetCounter = jQuery('.reset-counter'),
-		downloadCount = jQuery('.download-count');
+		fileID = jQuery('#file-download-id');
 
 	fileSelect.click(function(event) {
 		event.preventDefault();
@@ -45,10 +43,10 @@ jQuery(document).ready(function() {
 			return;
 		}
 
-		jQuery.post(ajaxurl, {file_id: fileID.val(), action: 'get-file-info'}, function(response){
+		jQuery.post(ajaxurl, {file_id: fileID.val(), action: 'download-information'}, function(response){
 			fileSelect.hide();
 			removeFileSelect.show();
-			fileInfo.html(response);
+			fileInfo.html(response.data.output);
 		});
 
 		fileSelect.removeClass('loading');
@@ -60,16 +58,4 @@ jQuery(document).ready(function() {
 		fileID.trigger('change');
 	});
 
-	resetCounter.click(function(event){
-		event.preventDefault();
-
-		if ( confirm(CustomPostTypeDownloads.resetCounter) ) {
-			resetCounter.addClass('loading');
-			jQuery.post(ajaxurl, {post_id: jQuery('#post_ID').val(), action: 'reset-download-counter'}, function(response){
-				downloadCount.html(response);
-				resetCounter.hide();
-				resetCounter.removeClass('loading');
-			});
-		}
-	});
 });

@@ -1,0 +1,322 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-04-13 08:09+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco - https://localise.biz/"
+
+#: classes/class.custom-post-type.downloads.admin.php:44
+msgid "Download Counter"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:45
+msgid "File"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:64
+msgid "Select as Download"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:65
+msgid "Select a File"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:66
+msgid "Reset Download Counter?"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:136
+msgid "Post ID missing"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:141
+msgid "Nonce missing"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:144
+msgid "Nonce invalid"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:147
+msgid "No user permission"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:152
+msgid "No Downloads yet"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:214
+#, php-format
+msgid "<strong>%s</strong> Download counted"
+msgid_plural "<strong>%s</strong> Downloads counted"
+msgstr[0] ""
+msgstr[1] ""
+
+#: classes/class.custom-post-type.downloads.admin.php:219
+msgid "Reset counter"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:250
+msgid "Select a file"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:251
+msgid "Remove file"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:277
+#: classes/class.custom-post-type.downloads.admin.php:280
+msgid "Download updated."
+msgstr ""
+
+#. %s: date and time of the revision
+#: classes/class.custom-post-type.downloads.admin.php:282
+#, php-format
+msgid "Download restored to revision from %s"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:283
+msgid "Download published."
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:284
+msgid "Download saved."
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:285
+msgid "Download submitted."
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:286
+#, php-format
+msgid "Download scheduled for: <strong>%1$s</strong>."
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:286
+msgid "M j, Y @ G:i"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:287
+msgid "Download draft updated."
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:295
+msgid "View download"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.admin.php:301
+msgid "Preview download"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:71
+msgctxt "post type general name"
+msgid "Downloads"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:72
+msgctxt "post type singular name"
+msgid "Download"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:73
+msgctxt "Download"
+msgid "Add New"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:74
+msgid "Add New Download"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:75
+msgid "Edit Download"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:76
+msgid "New Download"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:77
+msgid "View Download"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:78
+msgid "View Downloads"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:79
+msgid "Search Downloads"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:80
+msgid "No Downloads found"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:81
+msgid "No Downloads found in Trash"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:82
+msgid "Parent Download:"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:83
+msgid "All Downloads"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:84
+msgid "Download Archives"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:85
+msgid "Download Attributes"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:86
+msgid "Insert into download"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:87
+msgid "Uploaded to this download"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:88
+msgid "Featured Image"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:89
+msgid "Set featured image"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:90
+msgid "Remove featured image"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:91
+msgid "Use as featured image"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:92
+msgid "Filter downloads list"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:93
+msgid "Downloads list navigation"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:94
+msgid "Downloads list"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:102
+msgctxt "Post Type Slug"
+msgid "download"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:131
+msgctxt "taxonomy general name"
+msgid "Download Categories"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:132
+msgctxt "taxonomy singular name"
+msgid "Download Category"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:133
+msgid "Search Download Categories"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:134
+msgid "Popular Download Categories"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:135
+msgid "All Download Categories"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:136
+msgid "Parent Download Category"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:137
+msgid "Parent Download Category:"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:138
+msgid "Edit Download Category"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:139
+msgid "View Download Category"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:140
+msgid "Update Download Category"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:141
+msgid "Add New Download Category"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:142
+msgid "New Download Category Name"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:143
+msgid "Separate download categories with commas"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:144
+msgid "Add or remove download categories"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:145
+msgid "Choose from the most used download categories"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:146
+msgid "No download categories found"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:147
+msgid "No download categories"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:148
+msgid "Download Categories list navigation"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:149
+msgid "Download Categories list"
+msgstr ""
+
+#: classes/class.custom-post-type.downloads.php:154
+msgctxt "Download Category Slug"
+msgid "download-category"
+msgstr ""
+
+#. Name of the plugin
+msgid "Custom Post Type Downloads"
+msgstr ""
+
+#. Description of the plugin
+msgid "Manage downloads"
+msgstr ""
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "https://horttcore.de"
+msgstr ""
+
+#. Author of the plugin
+msgid "Ralf Hortt"
+msgstr ""

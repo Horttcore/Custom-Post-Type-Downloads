@@ -1,0 +1,14 @@
+#file-download-metabox .widefat {
+	margin: -6px -13px 0;
+	position: relative;
+	top: -1px;
+	width: calc( 100% + 26px )
+}
+
+#remove-file-download {
+	color: #a00
+}
+
+#remove-file-download:hover {
+	color: red;
+}
