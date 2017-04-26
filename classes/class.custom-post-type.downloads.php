@@ -1,20 +1,10 @@
 <?php
-/*
-Plugin Name: Custom Post Type Downloads
-Plugin URI: https://horttcore.de
-Description: Custom Post Type Downloads
-Version: 0.2
-Author: Ralf Hortt
-Author URI: https://horttcorte.de
-License: GPL2
-*/
-
-
-
 /**
  *
- *  Custom Post Type Produts
+ * Custom Post Type Downloads
  *
+ * @author Ralf Hortt <me@horttcore.de>
+ * @since v0.2
  */
 class Custom_Post_Type_Downloads
 {
@@ -26,14 +16,19 @@ class Custom_Post_Type_Downloads
 	 *
 	 * @access public
 	 * @return void
-	 * @author Ralf Hortt
+	 * @since v0.2
+	 * @author Ralf Hortt <me@horttcore.de>
 	 **/
 	public function __construct()
 	{
 
+		add_action( 'custom-post-type-downloads-before-loop', 'Custom_Post_Type_Downloads::loop_before', 10, 3 );
+		add_action( 'custom-post-type-downloads-loop', 'Custom_Post_Type_Downloads::loop', 10, 3 );
+		add_action( 'custom-post-type-downloads-after-loop', 'Custom_Post_Type_Downloads::loop_after', 10, 3 );
 		add_action( 'init', array( $this, 'register_post_type' ) );
 		add_action( 'init', array( $this, 'register_taxonomy' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
+		add_filter( 'widgets_init', array( $this, 'widgets_init' ) );
 
 	} // END __construct
 
@@ -43,8 +38,9 @@ class Custom_Post_Type_Downloads
 	 * Load plugin textdomain
 	 *
 	 * @access public
-	 * @since v1.1.0
-	 * @author Ralf Hortt
+	 * @return void
+	 * @since v0.2
+	 * @author Ralf Hortt <me@horttcore.de>
 	 **/
 	public function load_plugin_textdomain()
 	{
@@ -56,12 +52,75 @@ class Custom_Post_Type_Downloads
 
 
 	/**
+	 * Display loop
+	 *
+	 * @static
+	 * @access public
+	 * @return void
+	 * @since v0.3
+	 * @author Ralf Hortt <me@horttcore.de>
+	 */
+	static public function loop()
+	{
+
+		?>
+		<li>
+			<a href="<?php the_permalink() ?>"><?php the_title() ?></a>
+		</li>
+		<?php
+
+	} // END loop_after
+
+
+
+	/**
+	 * Display after loop
+	 *
+	 * @static
+	 * @access public
+	 * @return void
+	 * @since v0.3
+	 * @author Ralf Hortt <me@horttcore.de>
+	 */
+	static public function loop_after()
+	{
+
+		?>
+		</ul><!-- .list-downloads -->
+		<?php
+
+	} // END loop_after
+
+
+
+	/**
+	 * Display before loop
+	 *
+	 * @static
+	 * @access public
+	 * @return void
+	 * @since v0.3
+	 * @author Ralf Hortt <me@horttcore.de>
+	 */
+	static public function loop_before()
+	{
+
+		?>
+		<ul class="list-downloads">
+		<?php
+
+	} // END loop_before
+
+
+
+	/**
 	 *
 	 * POST TYPES
 	 *
 	 * @access public
 	 * @return void
-	 * @author Ralf Hortt
+	 * @since v0.2
+	 * @author Ralf Hortt <me@horttcore.de>
 	 */
 	public function register_post_type()
 	{
@@ -120,7 +179,8 @@ class Custom_Post_Type_Downloads
 	 *
 	 * @access public
 	 * @return void
-	 * @author Ralf Hortt
+	 * @since v0.2
+	 * @author Ralf Hortt <me@horttcore.de>
 	 */
 	public function register_taxonomy()
 	{
@@ -156,6 +216,23 @@ class Custom_Post_Type_Downloads
 		) );
 
 	} // END register_taxonomy
+
+
+
+	/**
+	 * Register widget
+	 *
+	 * @access public
+	 * @return void
+	 * @author Ralf Hortt <me@horttcore.de>
+	 * @since v0.3
+	 **/
+	public function widgets_init()
+	{
+
+		register_widget( 'Custom_Post_Type_Downloads_Widget' );
+
+	} // END widgets_init
 
 
 

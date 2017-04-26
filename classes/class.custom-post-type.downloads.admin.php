@@ -1,8 +1,10 @@
 <?php
 /**
  *
- *  Custom Post Type Produts Admin
+ *  Custom Post Type Downloads Admin
  *
+ * @author Ralf Hortt <me@horttcore.de>
+ * @since v0.2
  */
 class Custom_Post_Type_Downloads_Admin
 {
@@ -14,7 +16,8 @@ class Custom_Post_Type_Downloads_Admin
 	 *
 	 * @access public
 	 * @return void
-	 * @author Ralf Hortt
+	 * @since v0.2
+	 * @author Ralf Hortt <me@horttcore.de>
 	 **/
 	public function __construct()
 	{
@@ -36,7 +39,8 @@ class Custom_Post_Type_Downloads_Admin
 	 *
 	 * @access public
 	 * @return void
-	 * @author Ralf Hortt
+	 * @since v0.2
+	 * @author Ralf Hortt <me@horttcore.de>
 	 **/
 	public function add_meta_boxes()
 	{
@@ -53,7 +57,8 @@ class Custom_Post_Type_Downloads_Admin
 	 *
 	 * @access public
 	 * @return void
-	 * @author Ralf Hortt
+	 * @since v0.2
+	 * @author Ralf Hortt <me@horttcore.de>
 	 **/
 	public function admin_register_scripts()
 	{
@@ -74,7 +79,7 @@ class Custom_Post_Type_Downloads_Admin
 	 *
 	 * @access public
 	 * @return void
-	 * @since v2.0
+	 * @since v0.2
 	 * @author Ralf Hortt <me@horttcore.de>
 	 **/
 	public function admin_enqueue_styles()
@@ -101,7 +106,9 @@ class Custom_Post_Type_Downloads_Admin
 	 *
 	 * @param type var Description
 	 * @return return type
-	 */
+	 * @since v0.2
+	 * @author Ralf Hortt <me@horttcore.de>
+ 	 */
 	public function ajax_download_information()
 	{
 
@@ -127,7 +134,8 @@ class Custom_Post_Type_Downloads_Admin
 	 *
 	 * @access public
 	 * @return void
-	 * @author Ralf Hortt
+	 * @since v0.2
+	 * @author Ralf Hortt <me@horttcore.de>
 	 **/
 	public function ajax_reset_download_counter()
 	{
@@ -163,9 +171,14 @@ class Custom_Post_Type_Downloads_Admin
 	 * @access public
 	 * @param int $file_id Attachment ID
 	 * @return void
-	 */
+	 * @since v0.2
+	 * @author Ralf Hortt <me@horttcore.de>
+ 	 */
 	protected function file_info( $file_id )
 	{
+
+		if ( !$file_id )
+			return;
 
 		$file = get_post( $file_id );
 		?>
@@ -201,8 +214,9 @@ class Custom_Post_Type_Downloads_Admin
 	 * Counter Metabox
 	 *
 	 * @return void
-	 * @author Ralf Hortt
-	 **/
+	 * @since v0.2
+	 * @author Ralf Hortt <me@horttcore.de>
+ 	 **/
 	public function metabox_counter( $post )
 	{
 
@@ -229,7 +243,8 @@ class Custom_Post_Type_Downloads_Admin
 	 *
 	 * @access public
 	 * @return void
-	 * @author Ralf Hortt
+	 * @since v0.2
+	 * @author Ralf Hortt <me@horttcore.de>
 	 **/
 	public function metabox_file( $post )
 	{
@@ -262,8 +277,10 @@ class Custom_Post_Type_Downloads_Admin
 	 * Update messages
 	 *
 	 * @access public
-	 * @return void
-	 * @author Ralf Hortt
+	 * @param array $messages Update messages
+	 * @return array Update messages
+	 * @since v0.2
+	 * @author Ralf Hortt <me@horttcore.de>
 	 **/
 	public function post_updated_messages( $messages )
 	{
@@ -314,7 +331,8 @@ class Custom_Post_Type_Downloads_Admin
 	 * @access public
 	 * @param int $post_id Post id
 	 * @return void
-	 * @author Ralf Hortt
+	 * @since v0.2
+	 * @author Ralf Hortt <me@horttcore.de>
 	 **/
 	public function save_post( $post_id )
 	{
