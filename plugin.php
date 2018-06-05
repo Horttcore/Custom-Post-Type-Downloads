@@ -3,7 +3,7 @@
  * Plugin Name: Custom Post Type Downloads
  * Plugin URI: https://horttcore.de
  * Description: Manage downloads
- * Version: v0.3
+ * Version: v0.4
  * Author: Ralf Hortt
  * Author URI: https://horttcore.de
  * Text Domain: custom-post-type-downloads
@@ -13,6 +13,7 @@
 
 require( 'classes/class.custom-post-type.downloads.php' );
 require( 'classes/class.custom-post-type.downloads.admin.php' );
+require( 'classes/class.custom-post-type.downloads.acl.php' );
 require( 'classes/class.custom-post-type.downloads.shortcode.php' );
 require( 'classes/class.custom-post-type.downloads.widget.php' );
 require( 'includes/template-tags.php' );
