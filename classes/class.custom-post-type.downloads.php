@@ -199,7 +199,8 @@ class Custom_Post_Type_Downloads
             'hierarchical' => FALSE,
             'menu_position' => NULL,
             'menu_icon' => 'dashicons-download',
-            'supports' => array( 'title', 'editor', 'thumbnail', 'page-attributes' )
+            'supports' => array( 'title', 'editor', 'thumbnail', 'page-attributes' ),
+            'show_in_rest' => true,
         ));
 
     } // END register_post_type
@@ -246,6 +247,7 @@ class Custom_Post_Type_Downloads
                 'slug' => _x( 'download-category', 'Download Category Slug', 'custom-post-type-downloads' ),
             ),
             'show_admin_column' => TRUE,
+            'show_in_rest' => true,
         ) );
 
     } // END register_taxonomy
