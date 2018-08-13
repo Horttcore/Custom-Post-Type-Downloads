@@ -56,24 +56,39 @@ function renderDownloadsList($atts){
         $class = $atts['className'];
     }
 
-    $posts = get_posts($args);
+    $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+    $args['paged'] = $paged;
 
-    if(!is_array($posts)){
-        $posts = [$posts];
-    }
-
+    $query = new WP_Query($args);
+    $oldMaxNumPages = $GLOBALS['wp_query']->max_num_pages;
     ob_start();
-    echo '<ul class="wp-block-horttcore-downloads-list '.$class.'">';
-    foreach($posts as $post){
-        do_action('render_download_post', $post);
+    if($query->have_posts()){
+        $GLOBALS['wp_query']->max_num_pages = $query->max_num_pages;
+        echo '<div class="wp-block-horttcore-downloads '.$class.'">';
+            echo '<ul class="wp-block-horttcore-downloads-list">';
+            while($query->have_posts()){
+                $query->the_post();
+                do_action('render_download_post', $post);
+            }
+            echo '</ul>';
+
+            the_posts_pagination(
+                array(
+                    'prev_text'          => '<span class="screen-reader-text">' . __( 'Previous', 'fbo' ) . '</span>',
+                    'next_text'          => '<span class="screen-reader-text">' . __( 'Next', 'fbo' ) . '</span>',
+                )
+            );
+        echo '</div>';
     }
-    echo '</ul>';
+
+    wp_reset_query();
+    $GLOBALS['wp_query']->max_num_pages = $oldMaxNumPages;
     return ob_get_clean();
 }
 
-add_action('render_download_post', 'renderDownloadPost', 10, 1);
-function renderDownloadPost($post){
+add_action('render_download_post', 'renderDownloadPost', 10, 0);
+function renderDownloadPost(){
     echo '<li>';
-        echo '<a href="'.get_permalink($post->ID).'">'.$post->post_title.'</a>';
+        echo '<a href="'.get_permalink().'">'.get_the_title().'</a>';
     echo '</li>';
 }
