@@ -1,17 +1,19 @@
+//import { filter, includes } from 'lodash';
+
 const { __ } = wp.i18n;
-const { SelectControl, withAPIData } = wp.components;
+const { SelectControl } = wp.components;
+const { withSelect } = wp.data;
 
 function TaxList( {taxonomies, posttype, value, onChange} ){
     var _taxonomies = [];
-    if(taxonomies.data != undefined){
-         var arr = Object.values(taxonomies.data);
+    if(taxonomies != undefined){
+         var arr = Object.values(taxonomies);
         arr.forEach(element => {
             if(element.types.includes(posttype)){
-                _taxonomies.push({label: element.name, value: [element.rest_base, element.slug]})
+                _taxonomies.push({label: element.name, value: element.slug})
             }
         });
     }
-    //console.log(taxonomies, _taxonomies, posttype);
     const hasTaxs = Array.isArray(_taxonomies) && _taxonomies.length;
     if(!hasTaxs){
         return [
@@ -19,7 +21,7 @@ function TaxList( {taxonomies, posttype, value, onChange} ){
         ];
     }
 
-    _taxonomies.unshift({label: 'All', value: ''});
+    _taxonomies.unshift({label: __('All'), value: '-1'});
     return (
         <SelectControl
         { ...{ onChange } }
@@ -30,8 +32,11 @@ function TaxList( {taxonomies, posttype, value, onChange} ){
     );
 }
 
-export default withAPIData( (props) => {
+export default withSelect( (select, props) => {
+    const taxonomies = select('core').getTaxonomies();
+    //const postTypeTaxonomies = filter( taxonomies, (taxonomy) => includes(taxonomy.types, props.posttype));
+    //const visiblePostTypeTaxonomies = filter( postTypeTaxonomies, (taxonomy) => taxonomy.visibility.show_ui );
     return {
-        taxonomies: '/wp/v2/taxonomies',
-    };
-})( TaxList );
+        taxonomies: taxonomies, //visiblePostTypeTaxonomies,
+    }
+})(TaxList);
