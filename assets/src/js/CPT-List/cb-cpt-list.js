@@ -10,12 +10,12 @@ registerBlockType('horttcore/downloads-list', {
     description: 'Display a list of a selected downloads',
     attributes: {
         posttype: {
-            type: 'array',
-            default: ['download'],
+            type: 'string',
+            default: 'download',
         },
         taxonomie: {
-            type: 'array',
-            default: ['unkategorisiert'],
+            type: 'string',
+            default: 'unkategorisiert',
         },
         term: {
             type: 'array'

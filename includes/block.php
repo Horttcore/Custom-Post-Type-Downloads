@@ -64,21 +64,7 @@ function renderDownloadsList($atts){
     ob_start();
     if($query->have_posts()){
         $GLOBALS['wp_query']->max_num_pages = $query->max_num_pages;
-        echo '<div class="wp-block-horttcore-downloads '.$class.'">';
-            echo '<ul class="wp-block-horttcore-downloads-list">';
-            while($query->have_posts()){
-                $query->the_post();
-                do_action('render_download_post', $post);
-            }
-            echo '</ul>';
-
-            the_posts_pagination(
-                array(
-                    'prev_text'          => '<span class="screen-reader-text">' . __( 'Previous', 'fbo' ) . '</span>',
-                    'next_text'          => '<span class="screen-reader-text">' . __( 'Next', 'fbo' ) . '</span>',
-                )
-            );
-        echo '</div>';
+        do_action('custom-post-type-download-block-output');
     }
 
     wp_reset_query();
@@ -86,9 +72,34 @@ function renderDownloadsList($atts){
     return ob_get_clean();
 }
 
-add_action('render_download_post', 'renderDownloadPost', 10, 0);
-function renderDownloadPost(){
+add_action('custom-post-type-download-output', function($query, $class){
+    echo '<div class="wp-block-horttcore-downloads-list-wrapper">';
+    do_action('custom-post-type-download-before-block-loop', $class);
+    while($query->have_posts()){
+        $query->the_post();
+        do_action('custom-post-type-download-block-loop', get_post());
+    }
+    do_action('custom-post-type-download-after-block-loop');
+
+    the_posts_pagination(
+        array(
+            'prev_text' => '<span class="screen-reader-text">' . __( 'Previous', 'fbo' ) . '</span>',
+            'next_text' => '<span class="screen-reader-text">' . __( 'Next', 'fbo' ) . '</span>',
+        )
+    );
+    echo '</div>';
+}, 10, 2);
+
+add_action('custom-post-type-download-before-block-loop', function($class){
+    echo '<ul class="wp-block-horttcore-downloads-list '.$class.'">';
+}, 10, 1);
+
+add_action('custom-post-type-download-block-loop', function ($post){
     echo '<li>';
         echo '<a href="'.get_permalink().'">'.get_the_title().'</a>';
     echo '</li>';
-}
+}, 10, 1);
+
+add_action('custom-post-type-download-after-block-loop', function(){
+    echo '</ul>';
+}, 10, 0);

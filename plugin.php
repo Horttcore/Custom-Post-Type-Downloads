@@ -3,7 +3,7 @@
  * Plugin Name: Custom Post Type Downloads
  * Plugin URI: https://horttcore.de
  * Description: Manage downloads
- * Version: v0.5
+ * Version: v1.0
  * Author: Ralf Hortt
  * Author URI: https://horttcore.de
  * Text Domain: custom-post-type-downloads
@@ -12,6 +12,7 @@
  * 
  * Changelog:
  * - added gutenberg listing block # 13-08-2018 V 0.5
+ * - improved gutenberg blocks # 04-09-2018 V 1.0
  */
 
 require( 'classes/class.custom-post-type.downloads.php' );

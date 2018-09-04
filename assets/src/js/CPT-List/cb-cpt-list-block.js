@@ -1,4 +1,3 @@
-//import PtList from './cb-pt-list';
 import TaxList from './cb-tax-list';
 import TermList from './cb-term-list';
 
@@ -7,21 +6,22 @@ const { __ } = wp.i18n;
 const { InspectorControls } = wp.editor;
 const { TextControl, SelectControl, RangeControl, withAPIData } = wp.components;
 
+const { withSelect } = wp.data;
+
 class DownloadsListBlock extends Component {
     constructor(){
         super( ...arguments );
     }
     render() {
-        const posts = this.props.posts.data;
-        const {attributes, setAttributes, className, isSelected} = this.props;
-        const { posttype, taxonomie, term, amount, orderBy, order } = attributes;
+        const {attributes, setAttributes, className, isSelected, posts} = this.props;
+        const { taxonomie, term, amount, orderBy, order } = attributes;
         const classes = ((className) ? className : '' ) + ' list-wrapper ';
 
         var _posts = [];
-        if(posts != undefined && taxonomie != undefined && taxonomie.length != 0 && term != undefined && term.length != 0){
+        if(posts != undefined && taxonomie != undefined && taxonomie != undefined && term != undefined && term.length != 0){
             for(var i = 0; i < posts.length; i++){
                 // check if we have any value set in given taxonomie cause this will be an arry of ids
-                if(posts[i][taxonomie[0]] != undefined && posts[i][taxonomie[0]].length > 0){
+                if(posts[i][taxonomie] != undefined && posts[i][taxonomie].length > 0){
                     _posts.push(posts[i]);
                 }
             }
@@ -30,7 +30,7 @@ class DownloadsListBlock extends Component {
         }
         
         const termList = <TermList
-            taxonomie={ taxonomie[0] }
+            taxonomie={ taxonomie }
             value={ term }
             onChange={ (newTerm) => {
                 var _term = [];
@@ -53,7 +53,7 @@ class DownloadsListBlock extends Component {
                     posttype={ 'download' }
                     value={ taxonomie }
                     onChange={ (newTaxonomie) => {
-                        setAttributes( {taxonomie: newTaxonomie.split(',')} );
+                        setAttributes( {taxonomie: newTaxonomie} );
                         // reset other related values
                         setAttributes( {term: ''} );
                     }}
@@ -113,40 +113,29 @@ class DownloadsListBlock extends Component {
     
     }
 }
-export default withAPIData( (props) => {
+
+export default withSelect( (select, props) => {
     const { posttype, taxonomie, term, amount, orderBy, order } = props.attributes;
     const _order = String(order).toLowerCase();
-    var attrs = {
+	const postsQuery = {
+        per_page: amount,
         order: _order,
-		orderby: orderBy,
-		_fields: [ 'date_gmt', 'link', 'title', 'content', 'meta', 'thumbnail'],
-    }
-    if(amount > 0){
-        attrs.per_page = amount;
-    }
+        orderby: orderBy,
+        _fields: [ 'id', 'date_gmt', 'link', 'title', 'content', 'meta', 'thumbnail'],
+    };
     // retrieve taxonomies in fields
-    if(taxonomie[0] != undefined){
-        attrs._fields.push(taxonomie[0]);
+    if(taxonomie != undefined){
+        postsQuery._fields.push(taxonomie);
     }
     // retrieve posts with a given term
-    if(taxonomie[0] != "" && typeof term != 'undefined' && term.length != 0){
-        if(Array.isArray(term)){
-            attrs[taxonomie[0]] = term;
+    if(taxonomie != undefined && typeof term != 'undefined' && term.length != 0){
+        if(term.indexOf('-1') != -1){
+            delete postsQuery[taxonomie];
         } else {
-            attrs[taxonomie[0]] = term.map( (item, i) => {
-                if(typeof item != 'undefined'){
-                    return item.split(',')[1];
-                }
-            });
+            postsQuery[taxonomie] = term;
         }
     }
-    const queryString = serialize( attrs, value => ! isUndefined( value ) );
-    
     return {
-        posts: `/wp/v2/${posttype[0]}${queryString}`,
+        posts: select('core').getEntityRecords('postType', posttype, postsQuery)
     };
 })( DownloadsListBlock );
-
-function serialize( obj ) {
-    return '?'+Object.keys(obj).reduce(function(a,k){a.push(k+'='+encodeURIComponent(obj[k]));return a},[]).join('&')
-  }

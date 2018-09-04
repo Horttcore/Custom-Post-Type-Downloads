@@ -91,12 +91,12 @@ registerBlockType('horttcore/downloads-list', {
     description: 'Display a list of a selected downloads',
     attributes: {
         posttype: {
-            type: 'array',
-            default: ['download']
+            type: 'string',
+            default: 'download'
         },
         taxonomie: {
-            type: 'array',
-            default: ['unkategorisiert']
+            type: 'string',
+            default: 'unkategorisiert'
         },
         term: {
             type: 'array'
@@ -135,7 +135,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-//import PtList from './cb-pt-list';
 
 
 
@@ -147,6 +146,7 @@ var _wp$components = wp.components,
     SelectControl = _wp$components.SelectControl,
     RangeControl = _wp$components.RangeControl,
     withAPIData = _wp$components.withAPIData;
+var withSelect = wp.data.withSelect;
 
 var DownloadsListBlock = function (_Component) {
     _inherits(DownloadsListBlock, _Component);
@@ -160,14 +160,13 @@ var DownloadsListBlock = function (_Component) {
     _createClass(DownloadsListBlock, [{
         key: 'render',
         value: function render() {
-            var posts = this.props.posts.data;
             var _props = this.props,
                 attributes = _props.attributes,
                 setAttributes = _props.setAttributes,
                 className = _props.className,
-                isSelected = _props.isSelected;
-            var posttype = attributes.posttype,
-                taxonomie = attributes.taxonomie,
+                isSelected = _props.isSelected,
+                posts = _props.posts;
+            var taxonomie = attributes.taxonomie,
                 term = attributes.term,
                 amount = attributes.amount,
                 orderBy = attributes.orderBy,
@@ -176,10 +175,10 @@ var DownloadsListBlock = function (_Component) {
             var classes = (className ? className : '') + ' list-wrapper ';
 
             var _posts = [];
-            if (posts != undefined && taxonomie != undefined && taxonomie.length != 0 && term != undefined && term.length != 0) {
+            if (posts != undefined && taxonomie != undefined && taxonomie != undefined && term != undefined && term.length != 0) {
                 for (var i = 0; i < posts.length; i++) {
                     // check if we have any value set in given taxonomie cause this will be an arry of ids
-                    if (posts[i][taxonomie[0]] != undefined && posts[i][taxonomie[0]].length > 0) {
+                    if (posts[i][taxonomie] != undefined && posts[i][taxonomie].length > 0) {
                         _posts.push(posts[i]);
                     }
                 }
@@ -188,7 +187,7 @@ var DownloadsListBlock = function (_Component) {
             }
 
             var termList = wp.element.createElement(__WEBPACK_IMPORTED_MODULE_1__cb_term_list__["a" /* default */], {
-                taxonomie: taxonomie[0],
+                taxonomie: taxonomie,
                 value: term,
                 onChange: function onChange(newTerm) {
                     var _term = [];
@@ -212,7 +211,7 @@ var DownloadsListBlock = function (_Component) {
                     posttype: 'download',
                     value: taxonomie,
                     onChange: function onChange(newTaxonomie) {
-                        setAttributes({ taxonomie: newTaxonomie.split(',') });
+                        setAttributes({ taxonomie: newTaxonomie });
                         // reset other related values
                         setAttributes({ term: '' });
                     }
@@ -271,7 +270,7 @@ var DownloadsListBlock = function (_Component) {
     return DownloadsListBlock;
 }(Component);
 
-/* harmony default export */ __webpack_exports__["a"] = (withAPIData(function (props) {
+/* harmony default export */ __webpack_exports__["a"] = (withSelect(function (select, props) {
     var _props$attributes = props.attributes,
         posttype = _props$attributes.posttype,
         taxonomie = _props$attributes.taxonomie,
@@ -281,44 +280,28 @@ var DownloadsListBlock = function (_Component) {
         order = _props$attributes.order;
 
     var _order = String(order).toLowerCase();
-    var attrs = {
+    var postsQuery = {
+        per_page: amount,
         order: _order,
         orderby: orderBy,
-        _fields: ['date_gmt', 'link', 'title', 'content', 'meta', 'thumbnail']
+        _fields: ['id', 'date_gmt', 'link', 'title', 'content', 'meta', 'thumbnail']
     };
-    if (amount > 0) {
-        attrs.per_page = amount;
-    }
     // retrieve taxonomies in fields
-    if (taxonomie[0] != undefined) {
-        attrs._fields.push(taxonomie[0]);
+    if (taxonomie != undefined) {
+        postsQuery._fields.push(taxonomie);
     }
     // retrieve posts with a given term
-    if (taxonomie[0] != "" && typeof term != 'undefined' && term.length != 0) {
-        if (Array.isArray(term)) {
-            attrs[taxonomie[0]] = term;
+    if (taxonomie != undefined && typeof term != 'undefined' && term.length != 0) {
+        if (term.indexOf('-1') != -1) {
+            delete postsQuery[taxonomie];
         } else {
-            attrs[taxonomie[0]] = term.map(function (item, i) {
-                if (typeof item != 'undefined') {
-                    return item.split(',')[1];
-                }
-            });
+            postsQuery[taxonomie] = term;
         }
     }
-    var queryString = serialize(attrs, function (value) {
-        return !isUndefined(value);
-    });
-
     return {
-        posts: '/wp/v2/' + posttype[0] + queryString
+        posts: select('core').getEntityRecords('postType', posttype, postsQuery)
     };
 })(DownloadsListBlock));
-
-function serialize(obj) {
-    return '?' + Object.keys(obj).reduce(function (a, k) {
-        a.push(k + '=' + encodeURIComponent(obj[k]));return a;
-    }, []).join('&');
-}
 
 /***/ }),
 /* 3 */
@@ -327,10 +310,11 @@ function serialize(obj) {
 "use strict";
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+//import { filter, includes } from 'lodash';
+
 var __ = wp.i18n.__;
-var _wp$components = wp.components,
-    SelectControl = _wp$components.SelectControl,
-    withAPIData = _wp$components.withAPIData;
+var SelectControl = wp.components.SelectControl;
+var withSelect = wp.data.withSelect;
 
 
 function TaxList(_ref) {
@@ -340,21 +324,20 @@ function TaxList(_ref) {
         onChange = _ref.onChange;
 
     var _taxonomies = [];
-    if (taxonomies.data != undefined) {
-        var arr = Object.values(taxonomies.data);
+    if (taxonomies != undefined) {
+        var arr = Object.values(taxonomies);
         arr.forEach(function (element) {
             if (element.types.includes(posttype)) {
-                _taxonomies.push({ label: element.name, value: [element.rest_base, element.slug] });
+                _taxonomies.push({ label: element.name, value: element.slug });
             }
         });
     }
-    //console.log(taxonomies, _taxonomies, posttype);
     var hasTaxs = Array.isArray(_taxonomies) && _taxonomies.length;
     if (!hasTaxs) {
         return [wp.element.createElement('div', null)];
     }
 
-    _taxonomies.unshift({ label: 'All', value: '' });
+    _taxonomies.unshift({ label: __('All'), value: '-1' });
     return wp.element.createElement(SelectControl, _extends({ onChange: onChange }, {
         label: __('Custom Posttypes Taxonomies'),
         options: _taxonomies,
@@ -362,9 +345,12 @@ function TaxList(_ref) {
     }));
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (withAPIData(function (props) {
+/* harmony default export */ __webpack_exports__["a"] = (withSelect(function (select, props) {
+    var taxonomies = select('core').getTaxonomies();
+    //const postTypeTaxonomies = filter( taxonomies, (taxonomy) => includes(taxonomy.types, props.posttype));
+    //const visiblePostTypeTaxonomies = filter( postTypeTaxonomies, (taxonomy) => taxonomy.visibility.show_ui );
     return {
-        taxonomies: '/wp/v2/taxonomies'
+        taxonomies: taxonomies //visiblePostTypeTaxonomies,
     };
 })(TaxList));
 
@@ -376,26 +362,19 @@ function TaxList(_ref) {
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var __ = wp.i18n.__;
-var _wp$components = wp.components,
-    SelectControl = _wp$components.SelectControl,
-    withAPIData = _wp$components.withAPIData,
-    CheckboxControl = _wp$components.CheckboxControl,
-    Panel = _wp$components.Panel,
-    PanelHeader = _wp$components.PanelHeader,
-    PanelBody = _wp$components.PanelBody,
-    Dashicon = _wp$components.Dashicon;
+var SelectControl = wp.components.SelectControl;
+var withSelect = wp.data.withSelect;
 
 
 function TermList(_ref) {
     var terms = _ref.terms,
-        taxonomie = _ref.taxonomie,
         value = _ref.value,
         onChange = _ref.onChange,
         checked = _ref.checked;
 
     var _terms = [];
-    if (terms.data != undefined) {
-        var arr = Object.values(terms.data);
+    if (terms != undefined) {
+        var arr = Object.values(terms);
         arr.forEach(function (element) {
             if (element.name != undefined && element.id != undefined) {
                 _terms.push({ label: element.name, value: element.id });
@@ -418,15 +397,15 @@ function TermList(_ref) {
                 value: term.value,
                 label: term.label
             };
-        })
+        }),
+        value: value
     }))];
 }
-
-/* harmony default export */ __webpack_exports__["a"] = (withAPIData(function (props) {
+/* harmony default export */ __webpack_exports__["a"] = (withSelect(function (select, props) {
     var taxonomie = props.taxonomie;
 
     return {
-        terms: '/wp/v2/' + taxonomie
+        terms: select('core').getEntityRecords('taxonomy', taxonomie)
     };
 })(TermList));
 

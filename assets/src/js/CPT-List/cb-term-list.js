@@ -1,10 +1,11 @@
 const { __ } = wp.i18n;
-const { SelectControl, withAPIData, CheckboxControl, Panel, PanelHeader, PanelBody, Dashicon } = wp.components;
+const { SelectControl } = wp.components;
+const { withSelect } = wp.data;
 
-function TermList( {terms, taxonomie, value, onChange, checked} ){
+function TermList( {terms, value, onChange, checked} ){
     var _terms = [];
-    if(terms.data != undefined){
-        var arr = Object.values(terms.data);
+    if(terms != undefined){
+        var arr = Object.values(terms);
         arr.forEach(element => {
             if(element.name != undefined && element.id != undefined){
                 _terms.push({label: element.name, value: element.id})
@@ -30,13 +31,13 @@ function TermList( {terms, taxonomie, value, onChange, checked} ){
                 value: term.value,
                 label: term.label
             }))}
+            value={ value }
         />
     ];
 }
-
-export default withAPIData( (props) => {
+export default withSelect( (select, props) => {
     const { taxonomie } = props;
     return {
-        terms: '/wp/v2/'+taxonomie,
+        terms: select('core').getEntityRecords('taxonomy', taxonomie)
     };
 })( TermList );
