@@ -15,5 +15,5 @@ $file_type = get_post_mime_type( $file_id );
 
 header('Content-Disposition: attachment; filename="' . $file_name . '"');
 header("Content-Type: " . $file_type);
-file_get_contents( $file_path );
+echo file_get_contents( $file_path );
 exit;
